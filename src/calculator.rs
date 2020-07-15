@@ -8,3 +8,9 @@ fn can_add() {
     let result = calculate("1+1");
     assert_eq!(result, 2);
 }
+
+#[test]
+fn can_subtract() {
+    let result = calculate("1-1");
+    assert_eq!(result, 0);
+}
