@@ -24,3 +24,9 @@ fn can_subtract() {
     let result = calculate("1-1");
     assert_eq!(result, 0);
 }
+
+#[test]
+fn can_multiply() {
+    let result = calculate("2*2");
+    assert_eq!(result, 4);
+}
