@@ -1,6 +1,11 @@
 fn calculate(expression: &str) -> i8 {
-    let parts: Vec<&str> = expression.split('+').collect();
-    return parts[0].parse::<i8>().unwrap() + parts[1].parse::<i8>().unwrap();
+    return if expression.contains('+') {
+        let parts: Vec<&str> = expression.split('+').collect();
+        parts[0].parse::<i8>().unwrap() + parts[1].parse::<i8>().unwrap()
+    } else {
+        let parts: Vec<&str> = expression.split('-').collect();
+        parts[0].parse::<i8>().unwrap() - parts[1].parse::<i8>().unwrap()
+    }
 }
 
 #[test]
