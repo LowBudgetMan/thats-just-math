@@ -1,4 +1,4 @@
-pub fn calculate(expression: &str) -> i8 {
+pub fn calculate(expression: &str) -> i128 {
     return if expression.contains('+') {
         let parts = split_by_operand(expression, '+');
         calculate(parts[0]) + calculate(parts[1])
@@ -24,8 +24,8 @@ fn split_by_operand(expression: &str, operand: char) -> Vec<&str> {
     return expression.splitn(2, operand).collect();
 }
 
-fn parse_number(expression: &str) -> i8 {
-    return expression.parse::<i8>().unwrap();
+fn parse_number(expression: &str) -> i128 {
+    return expression.parse::<i128>().unwrap();
 }
 
 #[test]
@@ -74,4 +74,10 @@ fn can_handle_complex_multiplication_division_statement() {
 fn can_handle_multiplication_division_addition_subtraction_order_of_operations() {
     let result = calculate("2+7*3-1");
     assert_eq!(result, 22);
+}
+
+#[test]
+fn can_handle_large_numbers() {
+    let result = calculate("17014118346046923173168730371588410572");
+    assert_eq!(result, 17014118346046923173168730371588410572);
 }
