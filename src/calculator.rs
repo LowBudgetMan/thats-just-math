@@ -1,5 +1,6 @@
 fn calculate(expression: &str) -> i8 {
-    return 0;
+    let parts: Vec<&str> = expression.split('+').collect();
+    return parts[0].parse::<i8>().unwrap() + parts[1].parse::<i8>().unwrap();
 }
 
 #[test]
