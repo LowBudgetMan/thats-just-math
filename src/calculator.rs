@@ -1,5 +1,9 @@
 fn calculate(expression: &str) -> i8 {
-    return if expression.contains('+') {
+    return if expression.contains('*') {
+        let parts = split_by_operand(expression, '*');
+        parts.0 * parts.1
+    }
+    else if expression.contains('+') {
         let parts = split_by_operand(expression, '+');
         parts.0 + parts.1
     } else {
