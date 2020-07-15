@@ -1,19 +1,19 @@
 pub fn calculate(expression: &str) -> i8 {
-    return if expression.contains('/') {
-        let parts = split_by_operand(expression, '/');
-        calculate(parts[0]) / calculate(parts[1])
-    }
-    else if expression.contains('*') {
-        let parts = split_by_operand(expression, '*');
-        calculate(parts[0]) * calculate(parts[1])
-    }
-    else if expression.contains('+') {
+    return if expression.contains('+') {
         let parts = split_by_operand(expression, '+');
         calculate(parts[0]) + calculate(parts[1])
     }
     else if expression.contains('-') {
         let parts = split_by_operand(expression, '-');
         calculate(parts[0]) - calculate(parts[1])
+    }
+    else if expression.contains('/') {
+        let parts = split_by_operand(expression, '/');
+        calculate(parts[0]) / calculate(parts[1])
+    }
+    else if expression.contains('*') {
+        let parts = split_by_operand(expression, '*');
+        calculate(parts[0]) * calculate(parts[1])
     }
     else {
         parse_number(expression)
