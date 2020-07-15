@@ -69,3 +69,9 @@ fn can_handle_complex_multiplication_division_statement() {
     let result = calculate("2*3/2");
     assert_eq!(result, 3);
 }
+
+#[test]
+fn can_handle_multiplication_division_addition_subtraction_order_of_operations() {
+    let result = calculate("2+7*3-1");
+    assert_eq!(result, 22);
+}
