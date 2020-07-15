@@ -53,7 +53,7 @@ fn can_divide() {
 }
 
 #[test]
-fn can_handle_complex_statement() {
+fn can_handle_complex_addition_subtraction_statement() {
     let result = calculate("2+2-1");
     assert_eq!(result, 3);
 }
@@ -61,5 +61,11 @@ fn can_handle_complex_statement() {
 #[test]
 fn associative_property_of_addition() {
     let result = calculate("2-1+2");
+    assert_eq!(result, 3);
+}
+
+#[test]
+fn can_handle_complex_multiplication_division_statement() {
+    let result = calculate("2*3/2");
     assert_eq!(result, 3);
 }
