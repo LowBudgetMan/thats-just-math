@@ -57,3 +57,9 @@ fn can_handle_complex_statement() {
     let result = calculate("2+2-1");
     assert_eq!(result, 3);
 }
+
+#[test]
+fn associative_property_of_addition() {
+    let result = calculate("2-1+2");
+    assert_eq!(result, 3);
+}
