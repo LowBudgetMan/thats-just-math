@@ -1,24 +1,31 @@
-fn calculate(expression: &str) -> i8 {
+pub fn calculate(expression: &str) -> i8 {
     return if expression.contains('/') {
         let parts = split_by_operand(expression, '/');
-        parts.0 / parts.1
+        calculate(parts[0]) / calculate(parts[1])
     }
     else if expression.contains('*') {
         let parts = split_by_operand(expression, '*');
-        parts.0 * parts.1
+        calculate(parts[0]) * calculate(parts[1])
     }
     else if expression.contains('+') {
         let parts = split_by_operand(expression, '+');
-        parts.0 + parts.1
-    } else {
+        calculate(parts[0]) + calculate(parts[1])
+    }
+    else if expression.contains('-') {
         let parts = split_by_operand(expression, '-');
-        parts.0 - parts.1
+        calculate(parts[0]) - calculate(parts[1])
+    }
+    else {
+        parse_number(expression)
     }
 }
 
-fn split_by_operand(expression: &str, operand: char) -> (i8, i8) {
-    let parts: Vec<&str> = expression.split(operand).collect();
-    return (parts[0].parse::<i8>().unwrap(), parts[1].parse::<i8>().unwrap());
+fn split_by_operand(expression: &str, operand: char) -> Vec<&str> {
+    return expression.splitn(2, operand).collect();
+}
+
+fn parse_number(expression: &str) -> i8 {
+    return expression.parse::<i8>().unwrap();
 }
 
 #[test]
@@ -43,4 +50,10 @@ fn can_multiply() {
 fn can_divide() {
     let result = calculate("2/2");
     assert_eq!(result, 1);
+}
+
+#[test]
+fn can_handle_complex_statement() {
+    let result = calculate("2+2-1");
+    assert_eq!(result, 3);
 }
