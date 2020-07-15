@@ -34,3 +34,9 @@ fn can_multiply() {
     let result = calculate("2*2");
     assert_eq!(result, 4);
 }
+
+#[test]
+fn can_divide() {
+    let result = calculate("2/2");
+    assert_eq!(result, 1);
+}
