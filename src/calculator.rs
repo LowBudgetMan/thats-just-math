@@ -81,3 +81,15 @@ fn can_handle_large_numbers() {
     let result = calculate("17014118346046923173168730371588410572");
     assert_eq!(result, 17014118346046923173168730371588410572);
 }
+
+#[test]
+fn can_handle_negative_numbers() {
+    let result = calculate("3--2");
+    assert_eq!(result, 5);
+}
+
+#[test]
+fn can_handle_negative_number_on_its_own() {
+    let result = calculate("-128");
+    assert_eq!(result, -128);
+}
