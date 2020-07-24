@@ -1,23 +1,45 @@
 pub fn calculate(expression: &str) -> i128 {
-    return if expression.contains('+') {
-        let parts = split_by_operand(expression, '+');
+    let modified_expression: &str = replace_negative_number_notation(expression);
+    return if modified_expression.contains('+') {
+        let parts = split_by_operand(modified_expression, '+');
         calculate(parts[0]) + calculate(parts[1])
     }
-    else if expression.contains('-') {
-        let parts = split_by_operand(expression, '-');
+    else if modified_expression.contains('-') {
+        let parts = split_by_operand(modified_expression, '-');
         calculate(parts[0]) - calculate(parts[1])
     }
-    else if expression.contains('/') {
-        let parts = split_by_operand(expression, '/');
+    else if modified_expression.contains('/') {
+        let parts = split_by_operand(modified_expression, '/');
         calculate(parts[0]) / calculate(parts[1])
     }
-    else if expression.contains('*') {
-        let parts = split_by_operand(expression, '*');
+    else if modified_expression.contains('*') {
+        let parts = split_by_operand(modified_expression, '*');
         calculate(parts[0]) * calculate(parts[1])
     }
     else {
-        parse_number(expression)
+        parse_number(modified_expression)
     }
+}
+
+fn replace_negative_number_notation(expression: &str) -> &str{
+    let mut modified_expression = String::with_capacity(expression.len());
+    for i in expression.len().. {
+        if expression.chars().nth(i).unwrap() == '-' {
+            if i == 0 || char_contains_symbol(expression.chars().nth(i-1).unwrap()) {
+                modified_expression.push('`')
+            }
+            else {
+                modified_expression.push('-')
+            }
+        } else {
+            modified_expression.push(expression.chars().nth(i).unwrap())
+        }
+    }
+    return modified_expression
+}
+
+fn char_contains_symbol(value: char) -> bool {
+    return "-+*/".to_string().contains(value)
 }
 
 fn split_by_operand(expression: &str, operand: char) -> Vec<&str> {
@@ -84,8 +106,14 @@ fn can_handle_large_numbers() {
 
 #[test]
 fn can_handle_negative_numbers() {
-    let result = calculate("3--2");
-    assert_eq!(result, 5);
+    let result = calculate("-3--2");
+    assert_eq!(result, -1);
+}
+
+#[test]
+fn can_handle_negative_numbers_mixed_with_positive_operands() {
+    let result = calculate("-3+-2");
+    assert_eq!(result, -5);
 }
 
 #[test]
