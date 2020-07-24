@@ -1,38 +1,38 @@
 pub fn calculate(expression: &str) -> i128 {
-    let modified_expression: &str = replace_negative_number_notation(expression);
+    let modified_expression: String = replace_negative_number_notation(expression);
+    return recursive_calculate(&modified_expression)
+}
+
+fn recursive_calculate(modified_expression: &str) -> i128 {
     return if modified_expression.contains('+') {
         let parts = split_by_operand(modified_expression, '+');
         calculate(parts[0]) + calculate(parts[1])
-    }
-    else if modified_expression.contains('-') {
+    } else if modified_expression.contains('-') {
         let parts = split_by_operand(modified_expression, '-');
         calculate(parts[0]) - calculate(parts[1])
-    }
-    else if modified_expression.contains('/') {
+    } else if modified_expression.contains('/') {
         let parts = split_by_operand(modified_expression, '/');
         calculate(parts[0]) / calculate(parts[1])
-    }
-    else if modified_expression.contains('*') {
+    } else if modified_expression.contains('*') {
         let parts = split_by_operand(modified_expression, '*');
         calculate(parts[0]) * calculate(parts[1])
-    }
-    else {
+    } else {
         parse_number(modified_expression)
     }
 }
 
-fn replace_negative_number_notation(expression: &str) -> &str{
+fn replace_negative_number_notation(expression: &str) -> String{
     let mut modified_expression = String::with_capacity(expression.len());
-    for i in expression.len().. {
-        if expression.chars().nth(i).unwrap() == '-' {
-            if i == 0 || char_contains_symbol(expression.chars().nth(i-1).unwrap()) {
+    for (index, found_char) in expression.chars().enumerate() {
+        if found_char == '-' {
+            if index == 0 || char_contains_symbol(expression.chars().nth(index-1).unwrap()) {
                 modified_expression.push('`')
             }
             else {
                 modified_expression.push('-')
             }
         } else {
-            modified_expression.push(expression.chars().nth(i).unwrap())
+            modified_expression.push(found_char)
         }
     }
     return modified_expression
@@ -47,7 +47,7 @@ fn split_by_operand(expression: &str, operand: char) -> Vec<&str> {
 }
 
 fn parse_number(expression: &str) -> i128 {
-    return expression.parse::<i128>().unwrap();
+    return expression.to_string().replace('`', "-").parse::<i128>().unwrap();
 }
 
 #[test]
