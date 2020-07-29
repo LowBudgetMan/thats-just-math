@@ -4,7 +4,10 @@ pub fn calculate(expression: &str) -> i128 {
 }
 
 fn recursive_calculate(modified_expression: &str) -> i128 {
-    return if modified_expression.contains('+') {
+    return if modified_expression.contains('(') {
+        let simplified_expression = calculate_parenthetic_expression(modified_expression);
+        calculate(&simplified_expression)
+    } else if modified_expression.contains('+') {
         let parts = split_by_operand(modified_expression, '+');
         calculate(parts[0]) + calculate(parts[1])
     } else if modified_expression.contains('-') {
@@ -40,6 +43,16 @@ fn replace_negative_number_notation(expression: &str) -> String{
 
 fn char_contains_symbol(value: char) -> bool {
     return "-+*/".to_string().contains(value)
+}
+
+fn calculate_parenthetic_expression(expression: &str) -> String {
+    let left_parenthesis_index = expression.to_string().find('(').unwrap();
+    let right_parenthesis_index = expression.to_string().rfind(')').unwrap();
+    let left_of_expression = &expression[..left_parenthesis_index];
+    let middle_of_expression = calculate(&expression[left_parenthesis_index + 1..right_parenthesis_index]);
+    let right_of_expression = &expression[right_parenthesis_index + 1..];
+    let simplified_expression = format!("{}{}{}", &left_of_expression, middle_of_expression, &right_of_expression);
+    return simplified_expression
 }
 
 fn split_by_operand(expression: &str, operand: char) -> Vec<&str> {
@@ -120,4 +133,28 @@ fn can_handle_negative_numbers_mixed_with_positive_operands() {
 fn can_handle_negative_number_on_its_own() {
     let result = calculate("-128");
     assert_eq!(result, -128);
+}
+
+#[test]
+fn can_handle_parenthesis_at_beginning() {
+    let result = calculate("(2+7)*2");
+    assert_eq!(result, 18);
+}
+
+#[test]
+fn can_handle_parenthesis_in_middle() {
+    let result = calculate("4*(2+1)*2");
+    assert_eq!(result, 24);
+}
+
+#[test]
+fn can_handle_parenthesis_at_end() {
+    let result = calculate("4*(2+3)");
+    assert_eq!(result, 20);
+}
+
+#[test]
+fn can_handle_nested_parenthesis() {
+    let result = calculate("4*(3+(4/2))");
+    assert_eq!(result, 20);
 }
