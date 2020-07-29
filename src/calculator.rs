@@ -158,3 +158,9 @@ fn can_handle_nested_parenthesis() {
     let result = calculate("4*(3+(4/2))");
     assert_eq!(result, 20);
 }
+
+#[test]
+fn cboyer17_example() {
+    let result = calculate("1+(3*(1+2))-8");
+    assert_eq!(result, 2);
+}
