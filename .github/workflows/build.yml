@@ -38,5 +38,13 @@ jobs:
           args: --release --target=${{ matrix.target }}
       - uses: actions/upload-artifact@v2
         with:
-          name: binaries
-          path: target/ # or path/to/artifact
+          name: x86_64 Linux/Mac
+          path: target/x86_64-unknown-linux-gnu/tjm
+      - uses: actions/upload-artifact@v2
+        with:
+          name: x86_64 Windows
+          path: target/x86_64-pc-windows-gnu/tjm.exe
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ARMv7 Linux/Mac
+          path: target/armv7-unknown-linux-gnueabihf/tjm.exe
