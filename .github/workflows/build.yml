@@ -24,7 +24,6 @@ jobs:
           - armv7-unknown-linux-gnueabihf
           - x86_64-pc-windows-gnu
           - x86_64-unknown-linux-gnu
-          - x86_64-apple-darwin
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -47,9 +46,27 @@ jobs:
           path: target/x86_64-pc-windows-gnu/release/tjm.exe
       - uses: actions/upload-artifact@v2
         with:
-          name: x86_64 Mac
-          path: target/x86_64-apple-darwin/release/tjm
-      - uses: actions/upload-artifact@v2
-        with:
           name: ARMv7 Linux
           path: target/armv7-unknown-linux-gnueabihf/release/tjm
+  build-mac:
+    name: Build Mac
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: "-Clinker=clang-8 -Clinker-plugin-lto -Clink-arg=-fuse-ld=lld"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: x86_64-apple-darwin
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=x86_64-apple-darwin
+      - uses: actions/upload-artifact@v2
+        with:
+          name: x86_64 Mac
+          path: target/x86_64-apple-darwin/release/tjm
