@@ -52,8 +52,6 @@ jobs:
     name: Build Mac
     needs: test
     runs-on: macos-latest
-#    env:
-#      RUSTFLAGS: "-Clinker=clang-8 -Clinker-plugin-lto -Clink-arg=-fuse-ld=lld"
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
