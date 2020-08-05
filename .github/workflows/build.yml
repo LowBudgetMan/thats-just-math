@@ -14,40 +14,46 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
-  build:
-    name: Build
+  build-windows:
+    name: Build Windows
     needs: test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target:
-          - armv7-unknown-linux-gnueabihf
-          - x86_64-pc-windows-gnu
-          - x86_64-unknown-linux-gnu
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: ${{ matrix.target }}
+          target: x86_64-pc-windows-gnu
           override: true
       - uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: build
-          args: --release --target=${{ matrix.target }}
-      - uses: actions/upload-artifact@v2
-        with:
-          name: x86_64 Linux
-          path: target/x86_64-unknown-linux-gnu/release/tjm
+          args: --release --target=x86_64-pc-windows-gnu
       - uses: actions/upload-artifact@v2
         with:
           name: x86_64 Windows
           path: target/x86_64-pc-windows-gnu/release/tjm.exe
+  build-linux:
+    name: Build Linux
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: x86_64-unknown-linux-gnu
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=x86_64-unknown-linux-gnu
       - uses: actions/upload-artifact@v2
         with:
-          name: ARMv7 Linux
-          path: target/armv7-unknown-linux-gnueabihf/release/tjm
+          name: x86_64 Linux
+          path: target/x86_64-unknown-linux-gnu/release/tjm
   build-mac:
     name: Build Mac
     needs: test
