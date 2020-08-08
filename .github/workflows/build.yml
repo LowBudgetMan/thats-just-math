@@ -74,3 +74,17 @@ jobs:
         with:
           name: x86_64 Mac
           path: target/x86_64-apple-darwin/release/tjm
+  create-release:
+    name: Create Release
+    needs: [build-windows, build-linux, build-mac]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: '0'
+      - name: Bump tag version
+        uses: anothrNick/github-tag-action@1.22.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+      - run: echo ${{new_tag}}
