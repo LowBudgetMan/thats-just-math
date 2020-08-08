@@ -82,9 +82,9 @@ jobs:
       - uses: actions/checkout@master
         with:
           fetch-depth: '0'
-      - name: Bump tag version
+      - name: bump tag version
         uses: anothrNick/github-tag-action@1.22.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-      - run: echo ${{new_tag}}
+      - run: echo ${{steps.bump_tag_version.outputs.new_tag}}
