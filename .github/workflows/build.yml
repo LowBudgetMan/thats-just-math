@@ -117,6 +117,7 @@ jobs:
           files: 'artifacts/x86_64 Linux/'
           recursive: false
           dest: x86_64-Linux.zip
+      - run: ls -R
       - name: Upload Windows Asset
         id: upload-windows-asset
         uses: actions/upload-release-asset@v1
