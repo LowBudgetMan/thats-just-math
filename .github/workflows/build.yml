@@ -104,47 +104,16 @@ jobs:
           path: artifacts
       - uses: papeloto/action-zip@v1
         with:
-          files: 'artifacts/x86_64 Windows/'
+          files: 'artifacts/'
           recursive: false
-          dest: x86_64-Windows.zip
-      - uses: papeloto/action-zip@v1
-        with:
-          files: 'artifacts/x86_64 Mac/'
-          recursive: false
-          dest: x86_64-Mac.zip
-      - uses: papeloto/action-zip@v1
-        with:
-          files: 'artifacts/x86_64 Linux/'
-          recursive: false
-          dest: x86_64-Linux.zip
-      - run: ls -R
-      - name: Upload Windows Asset
-        id: upload-windows-asset
+          dest: binaries.zip
+      - name: Upload Assets
+        id: upload-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./x86_64-Windows.zip
-          asset_name: x86_64-Windows.zip
-          asset_content_type: application/zip
-      - name: Upload Mac Asset
-        id: upload-mac-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./x86_64-Mac.zip
-          asset_name: x86_64-Mac.zip
-          asset_content_type: application/zip
-      - name: Upload Linux Asset
-        id: upload-linux-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./x86_64-Linux.zip
-          asset_name: x86_64-Linux.zip
+          asset_path: ./
+          asset_name: binaries.zip
           asset_content_type: application/zip
