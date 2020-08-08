@@ -83,6 +83,7 @@ jobs:
         with:
           fetch-depth: '0'
       - name: bump tag version
+        id: bump_tag_version
         uses: anothrNick/github-tag-action@1.22.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
