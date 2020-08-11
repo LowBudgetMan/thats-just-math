@@ -127,7 +127,7 @@ jobs:
         with:
           files: 'artifacts/'
           recursive: false
-          dest: binaries.zip
+          dest: artifacts.zip
       - name: Upload Assets
         id: upload-asset
         uses: actions/upload-release-asset@v1
@@ -135,6 +135,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries.zip
-          asset_name: binaries.zip
+          asset_path: ./artifacts.zip
+          asset_name: artifacts.zip
           asset_content_type: application/zip
