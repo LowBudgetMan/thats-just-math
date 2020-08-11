@@ -17,6 +17,7 @@ jobs:
   update-version:
     name: Update Version
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v2
         with:
@@ -33,7 +34,7 @@ jobs:
           commit_message: Apply automatic version update
   build-windows:
     name: Build Windows
-    needs: test
+    needs: update-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +54,7 @@ jobs:
           path: target/x86_64-pc-windows-gnu/release/tjm.exe
   build-linux:
     name: Build Linux
-    needs: test
+    needs: update-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -73,7 +74,7 @@ jobs:
           path: target/x86_64-unknown-linux-gnu/release/tjm
   build-mac:
     name: Build Mac
-    needs: test
+    needs: update-version
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
