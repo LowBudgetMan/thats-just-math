@@ -32,7 +32,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply automatic version update
-      - run: git rev-parse --short HEAD
   build-windows:
     name: Build Windows
     needs: update-version
@@ -40,7 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: git pull
-      - run: git rev-parse --short HEAD
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -61,6 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: git pull
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -81,6 +80,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - run: git pull
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
