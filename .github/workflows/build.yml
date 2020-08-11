@@ -39,7 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: git remote set-url origin ${{ secrets.ssh }}
       - run: git pull
       - run: git rev-parse --short HEAD
       - uses: actions-rs/toolchain@v1
