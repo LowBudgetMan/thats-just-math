@@ -28,6 +28,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: true
       - run: sed -i 's/version = ".*/version = "${{steps.fetch-next-version.outputs.new_tag}}"/' Cargo.toml
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply automatic version update
   build-windows:
     name: Build Windows
     needs: test
