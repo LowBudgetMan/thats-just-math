@@ -1,6 +1,6 @@
 [package]
 name = "tjm"
-version = "1.0.4"
+version = "1.0.5"
 authors = ["Nick Reuter <thenewimagineer@gmail.com>"]
 edition = "2018"
 
